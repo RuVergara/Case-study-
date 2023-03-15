@@ -1,0 +1,80 @@
+# Instalamos paquete y biblioteca 
+
+install.packages("tidyverse")
+library(tidyverse)
+
+# Cambaiamos al directorio de trabajo
+
+setwd("C:/Users/RVR/Documents/Certificado de Google Data Analytics/08 Curso final de análisis computacional de datos de Google")
+
+# Utilizamos la función read para leer el archivo con los datos
+
+read.csv("iris.data.csv")
+
+# Ejecutaremos el siguiente código para leer el archivo 'iris.data.csv' en un marco de datos:
+
+iris_data_CP3 <-read.csv("iris.data.csv")
+
+# Ejecutaremos dos fragmentos de código para obtener una muestra de los datos y 
+# también obtener una vista previa de todos los nombres de las columnas
+
+head(iris_data_CP3)
+colnames(iris_data_CP3)
+
+# Cambiemos el nombre de las columnas para enterder mejor el marco de datos
+
+colnames(iris_data_CP3) <- c("Sepal.Length","Sepal.Width","Petal.Length","Petal.Width","Species")
+
+# Volvemos a obtener una vista previa de todos los nombres de las columnas
+
+colnames(iris_data_CP3)
+
+# Generemos un Tibble, para tener un marco de datos simplificado
+
+as_tibble(iris_data_CP3)
+
+# datos estadísticos del marco de datos
+
+View(iris_data_CP3)
+
+# iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Sepal.Length=mean (Sepal.Length))
+
+# iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Sepal.Width=mean (Sepal.Width))
+
+# iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Petal.Length=mean (Petal.Length))
+
+# iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Petal.Width=mean (Petal.Width))
+
+iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Sepal.Length=mean (Sepal.Length), mean_Sepal.Width=mean (Sepal.Width), mean_Petal.Length=mean (Petal.Length), mean_Petal.Width=mean (Petal.Width))
+
+# iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(sd_Sepal.Length=sd (Sepal.Length))
+
+iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(sd_Sepal.Length=sd (Sepal.Length), sd_Sepal.Width=sd (Sepal.Width), sd_Petal.Length=sd (Petal.Length), sd_Petal.Width=sd (Petal.Width))
+
+iris_data_CP3 %>% count(Species)
+
+# iris_data_CP3 %>% count(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width)
+
+# Visualización de los datos
+
+# ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width))
+
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species)) + 
+  labs(title = "Iris: Sepal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+
+# ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Petal.Length,y=Petal.Width))
+
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Petal.Length,y=Petal.Width,color=Species,shape=Species)) + 
+  labs(title = "Iris Petal Length vs Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+
+# ggplot(data = iris_data_CP3) + geom_smooth(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species))
+
+ggplot(data = iris_data_CP3) + geom_smooth(mapping = aes(x=Sepal.Length,y=Sepal.Width, color=Species)) + 
+  geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species))
+
+
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species)) + 
+  facet_wrap(~Species) + labs(title = "Iris: Sepal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Petal.Length,y=Petal.Width,color=Species,shape=Species)) + 
+  facet_wrap(~Species) + labs(title = "Iris: Petal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
