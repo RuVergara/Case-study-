@@ -1,0 +1,154 @@
+---
+title: "Case Study 3 - Flower Iris"
+author: "Ruben Vergara Ruiz"
+date: "2023-03-08"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+## Background for this activity / Introduction
+
+This is an end-of-certificate project that Coursera and other learning platforms often refer to as a capstone project. The final project brings together everything learned. We will have the opportunity to put all the new knowledge together and put it into practice with a computational data analysis case study. Case studies are computational data analysis practice projects. In the job search, they can ask us to carry out a practical case. The case study is a common way employers assess job skills and get to know how you address common data challenges.
+
+## The scenario
+
+This data set contains 50 samples of each of three Iris species: Iris setosa, Iris virginica and Iris versicolor, for each of these species four traits of each sample were measured: the length and width of the sepals and petals. The sepals are the ones that surround the other floral parts in the early stages of development, when the flower is just a bud, while the petals are the lower part of the perianth and comprise the sterile parts of a flower.
+
+## Step 1: Load packages
+
+Start by installing your required package. If you have already installed and loaded `tidyverse` in this session, feel free to skip the code chunks in this step.
+
+```{r}
+# install.packages("tidyverse")
+```
+
+Once a package is installed, we can load it by running the `library()` function with the package name inside the parentheses:
+
+```{r}
+library(tidyverse)
+```
+
+## Step 2: Import data
+
+One of the most common file types data analysts import into `R` is comma separated values files, or .csv files. The `tidyverse` library package `readr` has a number of functions for "reading in" or importing data, including .csv files and other external sources. 
+
+In the chunk below, use the `read_csv()` function to import data from a .csv in the project folder called "iris.data.csv" (Download URL: https://www.kaggle.com/datasets/uciml/iris ) and save it as a data frame called `iris.data_CP3.csv`. 
+
+If this line causes an error, copy in the line setwd("projects/Course 7/Week 3") before it. 
+
+The results will display as column specifications:
+
+```{r}
+setwd("C:/Users/RVR/Documents/Certificado de Google Data Analytics/08 Curso final de análisis computacional de datos de Google")
+```
+
+```{r}
+iris_data_CP3 <-read.csv("iris.data.csv")
+```
+
+##  Step 3: Inspect & clean data
+
+We'll run two code snippets to sample the data and also preview all the column names.
+
+```{r}
+head(iris_data_CP3)
+```
+
+```{r}
+colnames(iris_data_CP3)
+```
+
+In addition to `head()` and `colnames()`, there are a number of other useful functions for summarizing or previewing the data frame. The `str()` and and `glimpse()` function will provide summaries of each column of your data arranged horizontally.:
+
+```{r}
+str(iris_data_CP3)
+```
+
+```{r}
+glimpse(iris_data_CP3)
+```
+
+Let's name the columns to better understand the data frame.
+
+```{r}
+colnames(iris_data_CP3) <- c("Sepal.Length","Sepal.Width","Petal.Length","Petal.Width","Species")
+```
+
+We get a preview of all the column names again.
+
+```{r}
+colnames(iris_data_CP3)
+```
+
+Let's generate a Tibble, to have a simplified data frame.
+
+```{r}
+as_tibble(iris_data_CP3)
+```
+
+## Statistical data from the data frame
+
+Let's start by making a view of the data frame, to verify that the data is correct, starting with the name of the columns.
+
+```{r}
+View(iris_data_CP3)
+```
+
+Mean Sepal.Length, Sepal.Width and Petal.Length, Petal.Width.
+
+```{r}
+iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(mean_Sepal.Length=mean (Sepal.Length), mean_Sepal.Width=mean (Sepal.Width), mean_Petal.Length=mean (Petal.Length), mean_Petal.Width=mean (Petal.Width))
+```
+
+SD Sepal.Length, Sepal.Width and Petal.Length, Petal.Width.
+
+```{r}
+iris_data_CP3 %>% group_by (Species) %>% drop_na() %>% summarise(sd_Sepal.Length=sd (Sepal.Length), sd_Sepal.Width=sd (Sepal.Width), sd_Petal.Length=sd (Petal.Length), sd_Petal.Width=sd (Petal.Width))
+```
+
+## Including Plots
+
+The geom_point() function uses points to create a scatterplot. Scatterplots are useful for showing the relationship between two numeric variables.
+
+Iris: Sepal Length vs. Width
+
+```{r}
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species)) + 
+  labs(title = "Iris: Sepal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+```
+
+Iris Petal Length vs Width
+
+```{r}
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Petal.Length,y=Petal.Width,color=Species,shape=Species)) + 
+  labs(title = "Iris Petal Length vs Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+```
+
+To create separate charts for each Species to help us understand the differences more clearly.
+
+The `facet_` function can do this.
+
+```{r}
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Sepal.Length,y=Sepal.Width,color=Species,shape=Species)) + 
+  facet_wrap(~Species) + labs(title = "Iris: Sepal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+```
+
+
+```{r}
+ggplot(data = iris_data_CP3) + geom_point(mapping = aes(x=Petal.Length,y=Petal.Width,color=Species,shape=Species)) + 
+  facet_wrap(~Species) + labs(title = "Iris: Petal Length vs. Width", subtitle = "Sample of Three Iris Species", caption = "Data by UCI Machine Learning")
+```
+
+
+## Conclusions
+
+In the graph "Iris: Sepal Length vs. Width", the data are distributed almost uniformly, especially those corresponding to Iris setosa, while those corresponding to versicolor and virginica have somewhat similar qualities, which is why they sometimes overlap.
+
+In the graph "Iris Petal Length vs Width", we can see a much more uniform distribution compared to the sepal.
+
+Regarding the information of the graphs that create charts for each species, they confirm that the Sepal data have an almost uniform distribution and the Petal data have a more uniform distribution compared to the Sepal.
+
+
+
+
